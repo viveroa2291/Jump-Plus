@@ -1,30 +1,40 @@
 package com.cognixia.jump.movie;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MovieRating {
 
 	public static void main(String[] args) {
-		
-		if(menu() == 1) {
-			register();
-		}
-		else if(menu() == 2) {
-			login();
-		}
-		else if(menu() == 3) {
-			viewMovie();
-		}
-		else if(menu() == 4) {
-			exit();
-		}
-		else {
-			System.out.println("That is not an option. Please select 1-4.");
-			menu();
-		}
-	}
-	public static int menu() {
 		Scanner sc = new Scanner(System.in);
+		int option = menu(sc);
+		try {
+			while(option != 4) {
+				if(option == 1) {
+				register();
+				option = menu(sc);
+				}
+				else if(option == 2) {
+					login();
+					option = menu(sc);
+				}
+				else if(option == 3) {
+					viewMovie();
+					option = menu(sc);
+				}
+				else {
+					System.out.println("That is not an option. Please select 1-4.");
+					option = menu(sc);
+				}
+			} 
+			} catch (InputMismatchException e) {
+				System.out.println("Please select an integer.");
+				option = menu(sc);
+		}
+		exit();
+		sc.close();
+	}
+	public static int menu(Scanner sc) {
 	
 		System.out.println("+========================================================+");
 		System.out.println("| 1. REGISTER |");
