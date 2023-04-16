@@ -27,8 +27,11 @@ public class ConnectionManager {
 		
 		public static Connection getConnection() throws FileNotFoundException, IOException, ClassNotFoundException, SQLException {
 			if(connection == null) {
+				System.out.println("Connecting...");
 				makeConnection();
 			}
+			System.out.println("Connection Successful!");
+
 			return connection;
 		}
 		public static void main(String[] args) {

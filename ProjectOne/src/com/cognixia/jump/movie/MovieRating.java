@@ -1,5 +1,7 @@
 package com.cognixia.jump.movie;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
@@ -59,27 +61,36 @@ public class MovieRating {
 		return sc.nextInt();
 	}
 	public static void register() {
+		UserDao user1 = new UserDaoSql();
+		
+		try {
+			user1.setConnection();
+		} catch(ClassNotFoundException | IOException | SQLException e) {
+			e.printStackTrace();
+		}
+	
 		Scanner sc = new Scanner(System.in);
-		String firstName, lastName, username, password;
+		String firstName, lastName, email, username, password;
 		System.out.println("You selected to Register a user!");
 		
 		System.out.print("Enter your first name: ");
 		firstName = sc.next();
 		System.out.print("Enter your last name: ");
 		lastName = sc.next();
+		System.out.println("Enter your email address: ");
+		email = sc.next();
 		System.out.print("Enter your login username: ");
 		username = sc.next();
 		System.out.print("Enter your password: ");
 		password = sc.next();
 		
-		// UserDao user1 = new UserDaoSql();
-		//user1.createUser(firstName, lastName, username, password);
+		user1.createUser(firstName, lastName, email, username, password);
 		
-		User user = new User(1, firstName, lastName, username, password);
+		// User user = new User(1, firstName, lastName, username, password);
 	}
 	public static void login() {	
 		System.out.println("You selected to login.");
-
+		
 		userDao = new UserDaoSql();
 			try {
 				userDao.setConnection();
@@ -99,12 +110,18 @@ public class MovieRating {
 					userFound = userToFind.get();
 System.out.println("-------------------------------------------------------------------------------------------");
 					System.out.println("User login Success! Welcome " + userFound.getFirstName() + userFound.getLastName() + "!");
+					movieList = userDao.getListOfMoviesTracked(userFound);
 				}
- 			}
-		
-		
-		
-
+				else {
+					
+				}
+			}	catch(ClassNotFoundException e) {
+				e.printStackTrace();
+			}	catch (IOException e) {
+				e.printStackTrace();
+			}	catch (SQLException e) {
+				e.printStackTrace();
+			}
 	}
 	public static void viewMovie() {
 		System.out.println("Movie View");
@@ -113,3 +130,4 @@ System.out.println("------------------------------------------------------------
 		System.out.println("Exiting...");
 	}
 }
+

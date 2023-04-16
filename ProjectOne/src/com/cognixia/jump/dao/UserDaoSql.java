@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.cognixia.jump.connection.ConnectionManager;
@@ -49,8 +51,6 @@ public class UserDaoSql implements UserDao {
 	        	  rs.close();
 	        	  return Optional.empty();
 	          }
-	          
-	          
 		} catch (SQLException e) {
 			System.out.println("Cannot verify user due to connection issues");
 			//e.printStackTrace();
@@ -58,14 +58,20 @@ public class UserDaoSql implements UserDao {
 		}
 		}
 	@Override
-	public boolean createUser(User user) {
-		try( PreparedStatement pstmt = conn.prepareStatement("insert into user(firstName, lastName, username, password)"
-				+ "values (?, ?, ?, ?)");) {
+	public boolean createUser(String firstName, String lastName, String email, String username, String password) {
+		try( PreparedStatement pstmt = conn.prepareStatement("INSERT INTO USER (first_name, last_name, email, username, password)"
+				+ "VALUES (?, ?, ?, ?, ?)");) {
+			/*
 			pstmt.setString(1, user.getFirstName());
 			pstmt.setString(2, user.getLastName());
 			pstmt.setString(3, user.getUsername());
 			pstmt.setString(4, user.getPassword());
-			
+			*/
+			pstmt.setString(1, firstName);
+			pstmt.setString(2, lastName);
+			pstmt.setString(3, email);
+			pstmt.setString(4, username);
+			pstmt.setString(5, password);
 			
 			int count = pstmt.executeUpdate();
 			if(count > 0) {
@@ -75,9 +81,34 @@ public class UserDaoSql implements UserDao {
 			
 		} catch(SQLException e) {
 			// Uncomment if problems occur
-			// e.printStackTrace();
+			 e.printStackTrace();
 			return false;
 		}
 		return false;
 	}
+	public List<UserMovie> getListOfMoviesTracked(User user) {
+		List<UserMovie> moviesTracked = new ArrayList<>();
+		try(PreparedStatement pstmt = conn.prepareStatement("select * from user_movie where user_id = ?");){
+			pstmt.setInt(1, user.getId());
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				int userId = rs.getInt("user_id");
+				int movieId = rs.getInt("movie_id");
+				String status = rs.getString("status");
+
+				UserMovie tracked = new UserMovie(userId, movieId, status);
+				
+				// adding the movie into the movie list
+				moviesTracked.add(tracked);
+			}
+			
+			
+		} catch(SQLException e) {
+			// uncomment of you're running into issues and want to know what's
+			// going on
+//			e.printStackTrace();
+		}
+		return moviesTracked;
+	}	
 }
