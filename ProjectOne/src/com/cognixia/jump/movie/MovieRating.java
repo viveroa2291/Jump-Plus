@@ -70,7 +70,7 @@ public class MovieRating {
 		}
 	
 		Scanner sc = new Scanner(System.in);
-		String firstName, lastName, email, username, password;
+		String firstName, lastName, email, username, password, confirmPassword;
 		System.out.println("You selected to Register a user!");
 		
 		System.out.print("Enter your first name: ");
@@ -91,8 +91,25 @@ public class MovieRating {
 		
 		System.out.print("Enter your login username: ");
 		username = sc.next();
+		
+		// Prompt user to enter password twice and check if they match
+	    boolean isMatched = false;
+	    do {
+	        System.out.print("Enter your password: ");
+	        password = sc.next();
+	        System.out.print("Confirm your password: ");
+	        confirmPassword = sc.next();
+	        if (password.equals(confirmPassword)) {
+	            isMatched = true;
+	        } else {
+	            System.out.println("Passwords do not match. Please try again.");
+	        }
+	    } while (!isMatched);
+
+		/*
 		System.out.print("Enter your password: ");
 		password = sc.next();
+		*/
 		
 		user1.createUser(firstName, lastName, email, username, password);
 		
