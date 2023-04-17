@@ -24,7 +24,7 @@ public class UserDaoSql implements UserDao {
 	
 	@Override 
 	public Optional<User> validateUser(String username, String password) {
-		try (PreparedStatement pstmt = conn.prepareStatement("select * from user where username = ? and password = ?");) {
+		try (PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM USER WHERE username = ? AND password = ?");) {
 			
 			pstmt.setString(1,  username);
 			pstmt.setString(2, password);
@@ -61,12 +61,7 @@ public class UserDaoSql implements UserDao {
 	public boolean createUser(String firstName, String lastName, String email, String username, String password) {
 		try( PreparedStatement pstmt = conn.prepareStatement("INSERT INTO USER (first_name, last_name, email, username, password)"
 				+ "VALUES (?, ?, ?, ?, ?)");) {
-			/*
-			pstmt.setString(1, user.getFirstName());
-			pstmt.setString(2, user.getLastName());
-			pstmt.setString(3, user.getUsername());
-			pstmt.setString(4, user.getPassword());
-			*/
+		
 			pstmt.setString(1, firstName);
 			pstmt.setString(2, lastName);
 			pstmt.setString(3, email);

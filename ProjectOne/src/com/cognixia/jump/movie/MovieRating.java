@@ -27,7 +27,7 @@ public class MovieRating {
 			while(option != 4) {
 				if(option == 1) {
 				register();
-				option = menu(sc);
+				 option = menu(sc);
 				}
 				else if(option == 2) {
 					login();
@@ -86,10 +86,10 @@ public class MovieRating {
 		
 		user1.createUser(firstName, lastName, email, username, password);
 		
-		// User user = new User(1, firstName, lastName, username, password);
+		// login();
 	}
 	public static void login() {	
-		System.out.println("You selected to login.");
+		System.out.println("Login");
 		
 		userDao = new UserDaoSql();
 			try {
@@ -109,7 +109,7 @@ public class MovieRating {
 				if(userToFind.isPresent()) {
 					userFound = userToFind.get();
 System.out.println("-------------------------------------------------------------------------------------------");
-					System.out.println("User login Success! Welcome " + userFound.getFirstName() + userFound.getLastName() + "!");
+					System.out.println("User login Success!\n Welcome " + userFound.getFirstName() + " " + userFound.getLastName() + "!");
 					movieList = userDao.getListOfMoviesTracked(userFound);
 				}
 				else {
