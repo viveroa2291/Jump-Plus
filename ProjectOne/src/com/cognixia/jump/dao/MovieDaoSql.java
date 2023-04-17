@@ -1,3 +1,4 @@
+
 package com.cognixia.jump.dao;
 
 import java.io.FileNotFoundException;
@@ -73,13 +74,15 @@ public class MovieDaoSql implements MovieDao {
 		}	
 	}
 	@Override
-	public boolean createMovie(Movie movie) {
-		try( PreparedStatement pstmt = conn.prepareStatement("insert into movies(title, rating)"
-				+ "values (?, ?)");) {
-			pstmt.setString(1, movie.getTitle());
-			pstmt.setDouble(2, movie.getRating());
-			
+	public boolean createMovie(String title, double rating) {
+		try( PreparedStatement pstmt = conn.prepareStatement("INSERT INTO MOVIES (title, rating)"
+				+ "VALUES (?, ?)");) {
+			pstmt.setString(1, title);
+			System.out.println("Rating value: " + rating);
+			pstmt.setDouble(2, rating);
 			int count = pstmt.executeUpdate();
+			System.out.println("Rows inserted: " + count);
+
 			if(count > 0) {
 				//Success if its inserted into the table
 				return true;
@@ -87,7 +90,7 @@ public class MovieDaoSql implements MovieDao {
 			
 		} catch(SQLException e) {
 			// Uncomment if problems occur
-			// e.printStackTrace();
+			 e.printStackTrace();
 			return false;
 		}
 		return false;

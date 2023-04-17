@@ -15,7 +15,7 @@ public interface MovieDao {
 		
 		public Optional<Movie> getMovieById(int id);
 		
-		public boolean createMovie(Movie movie);
+		public boolean createMovie(String title, double rating);
 		
 		public boolean deleteMovie(int id);
 		
