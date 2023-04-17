@@ -1,4 +1,3 @@
-
 package com.cognixia.jump.movie;
 
 import java.io.IOException;
@@ -20,33 +19,48 @@ import com.cognixia.jump.dao.UserMovie;
 public class MovieRating {
 	
 	private static List<UserMovie> movieList;
-	private static MovieDao movieDao;
+	private static MovieDao movieDao;	
+		
 	private static User userFound;
 	private static UserDao userDao;
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
+		
+		movieDao = new MovieDaoSql();
+		
+		
 		int option = menu(sc);
 		try {
+			movieDao.setConnection();
+			List<Movie> moviesList = movieDao.getAllMovies();
 			while(option != 4) {
 				if(option == 1) {
 				register();
-				 option = menu(sc);
+				 option = newMenu(sc);
 				}
 				else if(option == 2) {
 					login();
-					option = menu(sc);
+					option = newMenu(sc);
 				}
 				else if(option == 3) {
-					viewMovie();
-					// option = menu(sc);
+					viewMovie(moviesList);
+					option = newMenu(sc);
+				}
+				else if(option == 5) {
+					addMovie();
+					option = newMenu(sc);
+				}
+				else if(option == 6) {
+					addRating();
+					option = newMenu(sc);
 				}
 				else {
 					System.out.println("That is not an option. Please select 1-4.");
-					option = menu(sc);
+					option = newMenu(sc);
 				}
 			} 
-			} catch (InputMismatchException e) {
+			} catch (ClassNotFoundException | IOException | SQLException | InputMismatchException e) {
 				System.out.println("Please select an integer.");
 				option = menu(sc);
 		}
@@ -63,6 +77,24 @@ public class MovieRating {
 		System.out.println("+========================================================+");
 		
 		return sc.nextInt();
+	}
+	public static int newMenu(Scanner sc) {
+		System.out.println("+========================================================+");
+		System.out.println("| 1. Add Movie   |");
+		System.out.println("| 2. Add Rating  |");
+		System.out.println("| 3. VIEW MOVIES |");
+		System.out.println("| 4. EXIT        |");
+		System.out.println("+========================================================+");
+		int choice = sc.nextInt();
+		if(choice == 1) {
+			return 5;
+		}
+		else if(choice == 2) {
+			return 6;
+		}
+		else {
+			return choice;
+		}
 	}
 	public static void register() {
 		UserDao user1 = new UserDaoSql();
@@ -149,23 +181,24 @@ System.out.println("------------------------------------------------------------
 				e.printStackTrace();
 			}
 	}
-	public static void viewMovie() {
+	public static void viewMovie(List<Movie> movies) {
 		
 		MovieDao movie = new MovieDaoSql();
+		getTrackedList();
 		try {
 			movie.setConnection();
 		} catch(ClassNotFoundException | IOException | SQLException | NullPointerException e) {
 			e.printStackTrace();
 		}
-		List<Movie> movieList = movieDao.getAllMovies();
+		// List<Movie> movieList = movieDao.getAllMovies();
 
 		if(movieList == null) {			
-			System.out.println("No movies found... Would you like to add a movie?");
-			addMovie();		
+			System.out.println("No movies found... Please login");
+			login();	
 		}
 		else {
 			List<String> uniqueMovieList = new ArrayList<>();
-			for(Movie m : movieList) {
+			for(Movie m : movies) {
 				if(m.getTitle() instanceof String) {
 					String movieTitle = (String) m.getTitle();
 					
@@ -209,6 +242,16 @@ System.out.println("------------------------------------------------------------
 	}
 	public static void exit() {
 		System.out.println("Exiting...");
+	}
+	private static void getTrackedList() {
+		for(UserMovie u: movieList) {
+			Optional<Movie> movie = movieDao.getMovieById(u.getMovieId());
+			//checking if exists
+			if(movie.isPresent()) {
+				Movie movieFound = movie.get();
+				System.out.println(movieFound.getId() + ". " + movieFound.getTitle() + ", Rating ");
+			}
+		}
 	}
 }
 
