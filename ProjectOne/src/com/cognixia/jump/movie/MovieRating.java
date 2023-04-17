@@ -150,15 +150,28 @@ System.out.println("------------------------------------------------------------
 			}
 	}
 	public static void viewMovie() {
-		// MovieDao movie = new MovieDaoSql();
-		addMovie();
+		
+		
+		
+		MovieDao movie = new MovieDaoSql();
+		try {
+			movie.setConnection();
+		} catch(ClassNotFoundException | IOException | SQLException | NullPointerException e) {
+			e.printStackTrace();
+		}
+		System.out.println(movie.getAllMovies());
+
+		/*
 		List<Movie> movieList = movieDao.getAllMovies();
-		if(movieList != null) {
-			try {
-				movieDao.setConnection();
-			} catch(ClassNotFoundException | IOException | SQLException | NullPointerException e) {
-				e.printStackTrace();
-			}
+
+		if(movieList == null) {			
+			System.out.println("No movies found... Would you like to add a movie?");
+			addMovie();		
+			/*
+			
+		
+		}
+		else {
 			List<String> uniqueMovieList = new ArrayList<>();
 			for(Movie m : movieList) {
 				if(m.getTitle() instanceof String) {
@@ -173,10 +186,7 @@ System.out.println("------------------------------------------------------------
 				System.out.println(str);
 			}	
 		}
-		else {
-			System.out.println("No movies found... Would you like to add a movie?");
-		}
-		
+		*/
 	}
 	public static void addMovie() {
 		MovieDao movie = new MovieDaoSql();

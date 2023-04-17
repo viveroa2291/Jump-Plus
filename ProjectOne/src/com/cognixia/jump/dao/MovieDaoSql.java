@@ -24,7 +24,7 @@ public class MovieDaoSql implements MovieDao {
 	}
 	
 	@Override 
-	public List<Movie> getAllMovies() {
+	public String getAllMovies() {
 		List<Movie> movies = new ArrayList<>();
 		try(Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery("Select * from movies");) {
@@ -39,9 +39,9 @@ public class MovieDaoSql implements MovieDao {
 			}
 		} catch(SQLException e) {
 			// uncomment of you're running into issues and want to know what's going on
-			// e.printStackTrace();
+			 e.printStackTrace();
 		}
-		return movies;
+		return "Id\tMovie\trating";
 	}
 	@Override 
 	public Optional<Movie> getMovieById(int id) {
@@ -78,10 +78,8 @@ public class MovieDaoSql implements MovieDao {
 		try( PreparedStatement pstmt = conn.prepareStatement("INSERT INTO MOVIES (title, rating)"
 				+ "VALUES (?, ?)");) {
 			pstmt.setString(1, title);
-			System.out.println("Rating value: " + rating);
 			pstmt.setDouble(2, rating);
 			int count = pstmt.executeUpdate();
-			System.out.println("Rows inserted: " + count);
 
 			if(count > 0) {
 				//Success if its inserted into the table
