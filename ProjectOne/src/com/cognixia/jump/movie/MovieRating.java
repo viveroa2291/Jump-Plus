@@ -77,8 +77,18 @@ public class MovieRating {
 		firstName = sc.next();
 		System.out.print("Enter your last name: ");
 		lastName = sc.next();
-		System.out.println("Enter your email address: ");
-		email = sc.next();
+
+		String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+		   boolean isValidEmail = false;
+		   do {
+		       System.out.println("Enter your email address: ");
+		       email = sc.next();
+		       isValidEmail = email.matches(emailRegex);
+		       if (!isValidEmail) {
+		           System.out.println("Invalid email format. Please try again.");
+		       }
+		   } while (!isValidEmail);
+		
 		System.out.print("Enter your login username: ");
 		username = sc.next();
 		System.out.print("Enter your password: ");
@@ -86,7 +96,7 @@ public class MovieRating {
 		
 		user1.createUser(firstName, lastName, email, username, password);
 		
-		// login();
+		login();
 	}
 	public static void login() {	
 		System.out.println("Login");
