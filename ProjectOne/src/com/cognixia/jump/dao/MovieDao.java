@@ -11,9 +11,8 @@ public interface MovieDao {
 	
 		public void setConnection() throws FileNotFoundException, ClassNotFoundException, IOException, SQLException;
 		
-		// public List<Movie> getAllMovies();
+		public List<Movie> getAllMovies();
 		
-		public String getAllMovies();
 		public Optional<Movie> getMovieById(int id);
 		
 		public boolean createMovie(String title, double rating);

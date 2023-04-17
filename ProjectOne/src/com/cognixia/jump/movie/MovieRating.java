@@ -56,10 +56,10 @@ public class MovieRating {
 	public static int menu(Scanner sc) {
 	
 		System.out.println("+========================================================+");
-		System.out.println("| 1. REGISTER |");
-		System.out.println("| 2.LOGIN |");
+		System.out.println("| 1. REGISTER    |");
+		System.out.println("| 2. LOGIN       |");
 		System.out.println("| 3. VIEW MOVIES |");
-		System.out.println("| 4.EXIT |");
+		System.out.println("| 4. EXIT        |");
 		System.out.println("+========================================================+");
 		
 		return sc.nextInt();
@@ -151,25 +151,17 @@ System.out.println("------------------------------------------------------------
 	}
 	public static void viewMovie() {
 		
-		
-		
 		MovieDao movie = new MovieDaoSql();
 		try {
 			movie.setConnection();
 		} catch(ClassNotFoundException | IOException | SQLException | NullPointerException e) {
 			e.printStackTrace();
 		}
-		System.out.println(movie.getAllMovies());
-
-		/*
 		List<Movie> movieList = movieDao.getAllMovies();
 
 		if(movieList == null) {			
 			System.out.println("No movies found... Would you like to add a movie?");
 			addMovie();		
-			/*
-			
-		
 		}
 		else {
 			List<String> uniqueMovieList = new ArrayList<>();
@@ -186,7 +178,6 @@ System.out.println("------------------------------------------------------------
 				System.out.println(str);
 			}	
 		}
-		*/
 	}
 	public static void addMovie() {
 		MovieDao movie = new MovieDaoSql();

@@ -1,4 +1,3 @@
-
 package com.cognixia.jump.dao;
 
 import java.io.FileNotFoundException;
@@ -24,7 +23,7 @@ public class MovieDaoSql implements MovieDao {
 	}
 	
 	@Override 
-	public String getAllMovies() {
+	public List<Movie> getAllMovies() {
 		List<Movie> movies = new ArrayList<>();
 		try(Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery("Select * from movies");) {
@@ -41,7 +40,7 @@ public class MovieDaoSql implements MovieDao {
 			// uncomment of you're running into issues and want to know what's going on
 			 e.printStackTrace();
 		}
-		return "Id\tMovie\trating";
+		return movies;
 	}
 	@Override 
 	public Optional<Movie> getMovieById(int id) {
