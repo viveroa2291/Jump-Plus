@@ -250,24 +250,31 @@ System.out.println("------------------------------------------------------------
 		System.out.println("What is the new rating you want to give it? (1 - 5)");
 		newRating = sc.nextDouble();
 		
-		movie.updateMovieRating(newRating, movieId);
+		 boolean success = movieDao.updateMovieRating(newRating, movieId, userFound.getId());
+		   if (success) {
+		       System.out.println("Rating added successfully!");
+		   } else {
+		       System.out.println("Failed to add rating.");
+		   } 
 	}
 	public static void viewAverageRating() {
 		
 		MovieDao avgRating = new MovieDaoSql();
 		MovieDao numRating = new MovieDaoSql();
 		MovieDao numberOfMovie = new MovieDaoSql();
+		MovieDao movieTitle = new MovieDaoSql();
 		try {
 			avgRating.setConnection();
 			numRating.setConnection();
 			numberOfMovie.setConnection();
+			movieTitle.setConnection();
 		} catch(ClassNotFoundException | IOException | SQLException e) {
 			e.printStackTrace();
 		}		
 		
-		System.out.println("\nAverage Rating\t# of Ratings");
-		for(int i = 0; i < numberOfMovie.numberOfMovies(); i++) {
-			System.out.println(avgRating.getAverageRating(i).toString() + "\t\t" + numRating.getNumberRating(i).toString());
+		System.out.println("\nMovie\tAverage Rating\t# of Ratings");
+		for(int i = 1; i < numberOfMovie.numberOfMovies(); i++) {
+			System.out.println(movieTitle.getMovieTitle(i) + "\t\t" + avgRating.getAverageRating(i).toString() + "\t\t" + numRating.getNumberRating(i).toString());
 		}
 	}
 	public static void exit() {

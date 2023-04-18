@@ -17,6 +17,8 @@ public interface MovieDao {
 		
 		public List<Integer> getNumberRating(int movieId); 
 		
+		public List<String> getMovieTitle(int movieId);
+		
 		public int numberOfMovies();
 		
 		public Optional<Movie> getMovieById(int id);
@@ -25,6 +27,8 @@ public interface MovieDao {
 		
 		public boolean deleteMovie(int id);
 		
-		public boolean updateMovieRating(double rating, int id);
+		// public boolean updateMovieRating(double rating, int id);
+		
+		public boolean updateMovieRating(double rating, int movieId, int userId);
 		
 }

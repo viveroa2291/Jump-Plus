@@ -88,6 +88,25 @@ public class MovieDaoSql implements MovieDao {
 	    return numberRating;
 	}
 	
+	@Override 
+	public List<String> getMovieTitle(int movieId) {
+	    List<String> titles = new ArrayList<>();
+	    String sql = "SELECT title FROM movies WHERE movie_id = ?;";
+	    
+	    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        stmt.setInt(1, movieId);
+	        try (ResultSet rs = stmt.executeQuery()) {
+	            while (rs.next()) {
+	                String title = rs.getString("title");
+	                titles.add(title);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return titles;
+	}
+	
 	@Override
 	public int numberOfMovies() {
 	    int count = 0;
@@ -167,6 +186,7 @@ public class MovieDaoSql implements MovieDao {
 		}
 		return false;	}
 
+	/*
 	@Override
 	public boolean updateMovieRating(double rating, int id) {
 		try(PreparedStatement pstmt = conn.prepareStatement("update movies set rating = ?" 
@@ -184,5 +204,27 @@ public class MovieDaoSql implements MovieDao {
 		}
 		return false;
 	}
-
+	*/
+	@Override
+	public boolean updateMovieRating(double rating, int movieId, int userId) {
+	    try (PreparedStatement pstmt = conn.prepareStatement("INSERT INTO user_movie(user_id, movie_id, rating) VALUES (?, ?, ?)")) {
+	        pstmt.setInt(1, userId);
+	        pstmt.setInt(2, movieId);
+	        pstmt.setDouble(3, rating);
+	        int count = pstmt.executeUpdate();
+	        if (count > 0) {
+	            try (PreparedStatement pstmt2 = conn.prepareStatement("UPDATE movies SET rating = (SELECT AVG(rating) FROM user_movie WHERE movie_id = ?) WHERE movie_id = ?")) {
+	                pstmt2.setInt(1, movieId);
+	                pstmt2.setInt(2, movieId);
+	                count = pstmt2.executeUpdate();
+	                if (count > 0) {
+	                    return true;
+	                }
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
 }
