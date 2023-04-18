@@ -1,3 +1,4 @@
+
 package com.cognixia.jump.dao;
 
 import java.io.FileNotFoundException;
@@ -42,6 +43,51 @@ public class MovieDaoSql implements MovieDao {
 		}
 		return movies;
 	}
+	
+	@Override
+	public List<Double> getAverageRating(int movieId) {
+	    List<Double> avgRating = new ArrayList<>();
+	    String sql = "SELECT AVG(rating) AS avg_rating, COUNT(*) AS num_ratings "
+	            + "FROM user_movie WHERE movie_id = ?;";
+	    
+	    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        stmt.setInt(1, movieId);
+	        try (ResultSet rs = stmt.executeQuery()) {
+	            while (rs.next()) {
+	                double averageRating = rs.getDouble("avg_rating");
+	                int numRatings = rs.getInt("num_ratings");
+	                // Do something with the results
+	                avgRating.add(averageRating);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return avgRating;
+	}
+	
+	@Override 
+	public List<Integer> getNumberRating(int movieId) {
+	    List<Integer> numberRating = new ArrayList<>();
+	    String sql = "SELECT AVG(rating) AS avg_rating, COUNT(*) AS num_ratings "
+	            + "FROM user_movie WHERE movie_id = ?;";
+	    
+	    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        stmt.setInt(1, movieId);
+	        try (ResultSet rs = stmt.executeQuery()) {
+	            while (rs.next()) {
+	                double averageRating = rs.getDouble("avg_rating");
+	                int numRatings = rs.getInt("num_ratings");
+	             
+	                numberRating.add(numRatings);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return numberRating;
+	}
+	
 	@Override 
 	public Optional<Movie> getMovieById(int id) {
 		try( PreparedStatement pstmt = conn.prepareStatement("select * from movies where movie_id = ?") ) {

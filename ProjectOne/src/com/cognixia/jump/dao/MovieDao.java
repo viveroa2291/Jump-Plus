@@ -13,6 +13,10 @@ public interface MovieDao {
 		
 		public List<Movie> getAllMovies();
 		
+		public List<Double> getAverageRating(int movieId);
+		
+		public List<Integer> getNumberRating(int movieId); 
+		
 		public Optional<Movie> getMovieById(int id);
 		
 		public boolean createMovie(String title, double rating);

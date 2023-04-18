@@ -15,6 +15,8 @@ import com.cognixia.jump.dao.User;
 import com.cognixia.jump.dao.UserDao;
 import com.cognixia.jump.dao.UserDaoSql;
 import com.cognixia.jump.dao.UserMovie;
+import com.cognixia.jump.dao.UserMovieDao;
+import com.cognixia.jump.dao.UserMovieDaoSql;
 
 public class MovieRating {
 	
@@ -80,10 +82,10 @@ public class MovieRating {
 	}
 	public static int newMenu(Scanner sc) {
 		System.out.println("+========================================================+");
-		System.out.println("| 1. Add Movie   |");
-		System.out.println("| 2. Add Rating  |");
-		System.out.println("| 3. VIEW MOVIES |");
-		System.out.println("| 4. EXIT        |");
+		System.out.println("| 1. Add Movie   			|");
+		System.out.println("| 2. Add Rating  			|");
+		System.out.println("| 3. VIEW MOVIES 			|");
+		System.out.println("| 4. EXIT        			|");
 		System.out.println("+========================================================+");
 		int choice = sc.nextInt();
 		if(choice == 1) {
@@ -211,6 +213,7 @@ System.out.println("------------------------------------------------------------
 			for(String str : uniqueMovieList) {
 				System.out.println(str);
 			}	
+			viewAverageRating();
 		}
 	}
 	public static void addMovie() {
@@ -249,6 +252,19 @@ System.out.println("------------------------------------------------------------
 		newRating = sc.nextDouble();
 		
 		movie.updateMovieRating(newRating, movieId);
+	}
+	public static void viewAverageRating() {
+		MovieDao avgRating = new MovieDaoSql();
+		MovieDao numRating = new MovieDaoSql();
+		Scanner sc = new Scanner(System.in);
+		try {
+			avgRating.setConnection();
+			numRating.setConnection();
+		} catch(ClassNotFoundException | IOException | SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Average Rating\t# of Ratings");
+		System.out.println(avgRating.getAverageRating(5).toString() + "\t" + numRating.getNumberRating(5).toString());
 	}
 	public static void exit() {
 		System.out.println("Exiting...");
