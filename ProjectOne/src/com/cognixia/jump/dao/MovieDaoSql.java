@@ -88,6 +88,20 @@ public class MovieDaoSql implements MovieDao {
 	    return numberRating;
 	}
 	
+	@Override
+	public int numberOfMovies() {
+	    int count = 0;
+	    try (Statement stmt = conn.createStatement();
+	         ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS count FROM movies")) {
+	        if (rs.next()) {
+	            count = rs.getInt("count");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return count;
+	}
+	
 	@Override 
 	public Optional<Movie> getMovieById(int id) {
 		try( PreparedStatement pstmt = conn.prepareStatement("select * from movies where movie_id = ?") ) {
