@@ -30,7 +30,7 @@ public class ConnectionManager {
 				System.out.println("Connecting...");
 				makeConnection();
 			}
-			System.out.println("Connection Successful!");
+			// System.out.println("Connection Successful!");
 
 			return connection;
 		}
