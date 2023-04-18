@@ -198,9 +198,10 @@ System.out.println("------------------------------------------------------------
 		}
 		else {
 			List<String> uniqueMovieList = new ArrayList<>();
+			System.out.println("List of Movies");
 			for(Movie m : movies) {
 				if(m.getTitle() instanceof String) {
-					String movieTitle = (String) m.getTitle();
+					String movieTitle = (int) m.getId() + ". " + (String) m.getTitle() + "\t" + m.getRating();
 					
 					if(!uniqueMovieList.contains(movieTitle)) {
 						uniqueMovieList.add(movieTitle);
@@ -233,12 +234,21 @@ System.out.println("------------------------------------------------------------
 	}
 	public static void addRating() {
 		MovieDao movie = new MovieDaoSql();
-		
+		Scanner sc = new Scanner(System.in);
 		try {
 			movie.setConnection();
 		} catch(ClassNotFoundException | IOException | SQLException e) {
 			e.printStackTrace();
 		}
+		int movieId;
+		double newRating;
+		
+		System.out.println("Which movie do you want to rate? (Choose by id): ");
+		movieId = sc.nextInt();
+		System.out.println("What is the new rating you want to give it? (1 - 5)");
+		newRating = sc.nextDouble();
+		
+		movie.updateMovieRating(newRating, movieId);
 	}
 	public static void exit() {
 		System.out.println("Exiting...");
@@ -249,7 +259,7 @@ System.out.println("------------------------------------------------------------
 			//checking if exists
 			if(movie.isPresent()) {
 				Movie movieFound = movie.get();
-				System.out.println(movieFound.getId() + ". " + movieFound.getTitle() + ", Rating ");
+				System.out.println(movieFound.getId() + ". " + movieFound.getTitle() + ", Rating " + movieFound.getRating());
 			}
 		}
 	}

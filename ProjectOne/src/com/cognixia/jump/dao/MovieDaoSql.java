@@ -108,12 +108,11 @@ public class MovieDaoSql implements MovieDao {
 		return false;	}
 
 	@Override
-	public boolean updateMovie(Movie movie) {
-		try(PreparedStatement pstmt = conn.prepareStatement("update department set title = ?, rating = ?" 
-				+ "where dept_id = ?");){
-			pstmt.setString(1, movie.getTitle());
-			pstmt.setDouble(2, movie.getRating());
-			pstmt.setInt(3, movie.getId());
+	public boolean updateMovieRating(double rating, int id) {
+		try(PreparedStatement pstmt = conn.prepareStatement("update movies set rating = ?" 
+				+ "where movie_id = ?");){
+			pstmt.setDouble(1, rating);
+			pstmt.setInt(2, id);
 			
 			int count = pstmt.executeUpdate();
 			if(count > 0) {

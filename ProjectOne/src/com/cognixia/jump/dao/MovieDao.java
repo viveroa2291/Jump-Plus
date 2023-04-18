@@ -19,6 +19,6 @@ public interface MovieDao {
 		
 		public boolean deleteMovie(int id);
 		
-		public boolean updateMovie(Movie movie);
+		public boolean updateMovieRating(double rating, int id);
 		
 }
