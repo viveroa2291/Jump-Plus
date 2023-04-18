@@ -10,3 +10,13 @@ ProjectOne/.settings/org.eclipse.wst.jsdt.ui.superType.container
 ProjectOne/.settings/org.eclipse.wst.jsdt.ui.superType.name
 ProjectOne/WebContent/META-INF/MANIFEST.MF
 ClassExamples
+ProjectTwo/.classpath
+ProjectTwo/.gitignore
+ProjectTwo/.project
+ProjectTwo/.settings/.jsdtscope
+ProjectTwo/.settings/org.eclipse.jdt.core.prefs
+ProjectTwo/.settings/org.eclipse.wst.common.component
+ProjectTwo/.settings/org.eclipse.wst.common.project.facet.core.xml
+ProjectTwo/.settings/org.eclipse.wst.jsdt.ui.superType.container
+ProjectTwo/.settings/org.eclipse.wst.jsdt.ui.superType.name
+ProjectTwo/WebContent/META-INF/MANIFEST.MF
